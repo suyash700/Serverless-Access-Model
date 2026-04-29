@@ -1,4 +1,4 @@
-<img width="1910" height="911" alt="Screenshot 2026-04-26 200827" src="https://github.com/user-attachments/assets/8353248a-c93d-40d8-91b8-8da4ee6bbf6b" /># 🎓 College API – Student Management (AWS Serverless)
+# 🎓 College API – Student Management (AWS Serverless)
 
 This module was implemented as part of the practical to manage student records using a serverless architecture.
 
@@ -95,6 +95,8 @@ Client → API Gateway → Lambda → DynamoDB
 ```id="l2t3bp"
 /students
 ```
+
+<img width="1910" height="911" alt="Screenshot 2026-04-26 200827" src="https://github.com/user-attachments/assets/8353248a-c93d-40d8-91b8-8da4ee6bbf6b" />
 
 <img width="1919" height="829" alt="Screenshot 2026-04-26 200024" src="https://github.com/user-attachments/assets/27d0be66-ca14-4942-85c6-20669947396b" />
 
