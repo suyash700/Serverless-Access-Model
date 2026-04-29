@@ -141,7 +141,7 @@ Client → API Gateway → Lambda → DynamoDB
 
 ---
 
-## 🧪 Testing (Postman)
+## 🧪 Testing 
 
 ### 🔵 GET Students
 
@@ -183,6 +183,15 @@ GET /students
   "studentId": "your-id"
 }
 ```
+
+<img width="1919" height="962" alt="Screenshot 2026-04-29 151531" src="https://github.com/user-attachments/assets/6a375d8e-fedb-492a-97cc-6f1d3ffedb54" />
+
+<img width="1919" height="925" alt="Screenshot 2026-04-29 151747" src="https://github.com/user-attachments/assets/3d3256b8-e60b-45af-a8d8-16245e18f2be" />
+
+
+After delete
+
+<img width="1918" height="961" alt="image" src="https://github.com/user-attachments/assets/7a069649-8da9-4dc6-9d34-9307da6e13fa" />
 
 ---
 
