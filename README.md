@@ -1,6 +1,6 @@
-# 🚀 Serverless Orders API (AWS)
+<img width="1910" height="911" alt="Screenshot 2026-04-26 200827" src="https://github.com/user-attachments/assets/8353248a-c93d-40d8-91b8-8da4ee6bbf6b" /># 🎓 College API – Student Management (AWS Serverless)
 
-A serverless REST API that performs CRUD operations on orders using AWS services.
+This module was implemented as part of the practical to manage student records using a serverless architecture.
 
 ---
 
@@ -8,229 +8,187 @@ A serverless REST API that performs CRUD operations on orders using AWS services
 
 Client → API Gateway → Lambda → DynamoDB
 
-Built using:
+---
 
-* Amazon API Gateway
-* AWS Lambda
-* Amazon DynamoDB
+## 🗄️ DynamoDB Table: Students
+
+* Table Name: **Students**
+* Partition Key: `studentId` (String)
 
 ---
 
-## 📂 API Endpoints
+## 📊 Table Attributes
 
-| Method | Endpoint | Description        |
-| ------ | -------- | ------------------ |
-| GET    | /orders  | Fetch all orders   |
-| POST   | /orders  | Create a new order |
-| PUT    | /orders  | Update an order    |
-| DELETE | /orders  | Delete an order    |
-
----
-
-## 🗄️ DynamoDB Table Design
-
-* Table Name: **Orders**
-* Partition Key: `orderId`
-* Sort Key: `timestamp`
+| Attribute | Type   | Description               |
+| --------- | ------ | ------------------------- |
+| studentId | String | Unique ID of student      |
+| name      | String | Student name              |
+| branch    | String | Department (e.g., IT, CS) |
+| year      | Number | Academic year             |
 
 ---
 
-# 🔧 Steps Performed
+## 🔧 Steps Performed
 
-## 1️⃣ Created DynamoDB Table
+### 1️⃣ Created Students Table
 
-* Open AWS Console → DynamoDB
-* Created table:
+* Open DynamoDB → Create Table
+* Table name: `Students`
+* Partition key: `studentId`
 
-  * Name: `Orders`
-  * Partition key: `orderId`
-  * Sort key: `timestamp`
+  <img width="1919" height="905" alt="Screenshot 2026-04-26 194723" src="https://github.com/user-attachments/assets/3d58c2e2-09f7-4a80-9f12-4bf67a7ff91c" />
 
----
+  <img width="1916" height="902" alt="Screenshot 2026-04-26 194814" src="https://github.com/user-attachments/assets/55672321-cb66-4b3c-ae3f-35421e004fe2" />
 
-## 2️⃣ Created IAM Role
 
-* Open IAM → Roles → Create Role
-* Selected **Lambda service**
-* Attached policies:
-
-  * AmazonDynamoDBFullAccess
-  * AWSLambdaBasicExecutionRole
+<img width="1912" height="864" alt="Screenshot 2026-04-26 194856" src="https://github.com/user-attachments/assets/fe117d5c-d05d-4eea-a99e-27e5d676ad1e" />
 
 ---
 
-## 3️⃣ Created Lambda Functions
+### 2️⃣ Created Lambda Functions
 
-Created 4 functions:
+* `createStudent`
+* `getStudents`
+* `updateStudent`
+* `deleteStudent`
 
-* `createOrder`
-* `getOrders`
-* `updateOrder`
-* `deleteOrder`
+<img width="1913" height="884" alt="Screenshot 2026-04-26 195514" src="https://github.com/user-attachments/assets/9b0e827f-83ed-4cc4-bb97-a41d66f6db22" />
 
-Runtime: Python 3.x
-Attached IAM role to all functions
+<img width="1919" height="898" alt="Screenshot 2026-04-26 195559" src="https://github.com/user-attachments/assets/6dfaeba6-93b9-4320-af04-e6cdfb5f153a" />
 
----
-
-## 4️⃣ Implemented Lambda Logic
-
-### ✔ createOrder
-
-* Accepts JSON input
-* Generates `orderId` (UUID) and `timestamp`
-* Stores data in DynamoDB
 
 ---
 
-### ✔ getOrders
+### 3️⃣ Implemented Lambda Logic
 
-* Uses `scan()` to fetch all records
+#### ✔ createStudent
 
----
-
-### ✔ updateOrder
-
-* Uses `update_item()`
-* Fixed DynamoDB reserved keyword issue using:
-
-  * `ExpressionAttributeNames`
+* Accepts student details
+* Generates unique `studentId`
+* Stores record in DynamoDB
 
 ---
 
-### ✔ deleteOrder
+#### ✔ getStudents
 
-* Uses `delete_item()`
-* Requires `orderId` + `timestamp`
-
----
-
-## 5️⃣ Created API Gateway
-
-* Selected **REST API**
-* Endpoint type: **Regional**
+* Retrieves all students using `scan()`
 
 ---
 
-## 6️⃣ Created Resource
+#### ✔ updateStudent
 
-Created resource:
+* Updates student details using `update_item()`
 
-```
-/orders
+---
+
+#### ✔ deleteStudent
+
+* Deletes student using `studentId`
+
+---
+
+### 4️⃣ Created API Gateway (College API)
+
+* Created REST API
+* Created resource:
+
+```id="l2t3bp"
+/students
 ```
 
----
-
-## 7️⃣ Added Methods
-
-Mapped each method to a separate Lambda:
-
-| Method | Lambda      |
-| ------ | ----------- |
-| GET    | getOrders   |
-| POST   | createOrder |
-| PUT    | updateOrder |
-| DELETE | deleteOrder |
-
-✔ Enabled **Lambda Proxy Integration** for all methods
+<img width="1919" height="829" alt="Screenshot 2026-04-26 200024" src="https://github.com/user-attachments/assets/27d0be66-ca14-4942-85c6-20669947396b" />
 
 ---
 
-## 8️⃣ Fixed Common Issues
+### 5️⃣ Added Methods
 
-* ❌ Methods created on `/` instead of `/orders` → Fixed routing
-* ❌ Missing Authentication Token → Fixed endpoint path
-* ❌ 502 Internal Server Error → Fixed Lambda logic
-* ❌ DynamoDB reserved keyword (`item`) → Used alias (`#it`)
-* ❌ Old Lambda response ("Hello from Lambda") → Deployed updated code
+| Method | Endpoint  | Lambda        |
+| ------ | --------- | ------------- |
+| GET    | /students | getStudents   |
+| POST   | /students | createStudent |
+| PUT    | /students | updateStudent |
+| DELETE | /students | deleteStudent |
+
+
+<img width="1918" height="894" alt="Screenshot 2026-04-26 200252" src="https://github.com/user-attachments/assets/7b03bf94-ddeb-4c25-a68a-6170885fdbae" />
+
+<img width="1912" height="889" alt="Screenshot 2026-04-26 200321" src="https://github.com/user-attachments/assets/e41a69b8-d58a-447a-9c77-fe7957645959" />
+
+
+<img width="1917" height="883" alt="Screenshot 2026-04-26 200748" src="https://github.com/user-attachments/assets/6fe8463a-45f8-43fb-b968-762fbdca443f" />
+
+
+
+<img width="1919" height="881" alt="Screenshot 2026-04-26 200850" src="https://github.com/user-attachments/assets/651d4874-f938-43d0-a0bc-052f5db3ef83" />
+
+✔ Enabled Lambda Proxy Integration
 
 ---
 
-## 9️⃣ Enabled CORS
+### 6️⃣ Enabled CORS
 
-* Enabled CORS on `/orders`
-* Allowed all methods
+* Enabled for all methods
+
+<img width="1917" height="911" alt="Screenshot 2026-04-26 200927" src="https://github.com/user-attachments/assets/726c4e74-0e12-41bd-a4b9-27352d9927b4" />
 
 ---
 
-## 🔟 Deployed API
+### 7️⃣ Deployed API
 
-* Created stage: `dev`
-* Deployed API
-
-Example endpoint:
-
-```
-https://your-api-id.execute-api.region.amazonaws.com/dev/orders
-```
+* Stage: `dev`
 
 ---
 
 ## 🧪 Testing (Postman)
 
-### 🔵 GET Orders
+### 🔵 GET Students
 
-```
-GET /orders
+```id="t4cmr6"
+GET /students
 ```
 
 ---
 
-### 🟢 Create Order
+### 🟢 Create Student
 
-```json
+```json id="th1pc9"
 {
-  "item": "Laptop"
+  "name": "Suyash",
+  "branch": "IT",
+  "year": 3
 }
 ```
 
 ---
 
-### 🟡 Update Order
+### 🟡 Update Student
 
-```json
+```json id="k4svul"
 {
-  "orderId": "your-id",
-  "timestamp": "your-timestamp",
-  "item": "Mobile"
+  "studentId": "your-id",
+  "name": "Updated Name",
+  "branch": "CS",
+  "year": 4
 }
 ```
 
 ---
 
-### 🔴 Delete Order
+### 🔴 Delete Student
 
-```json
+```json id="sh3gxf"
 {
-  "orderId": "your-id",
-  "timestamp": "your-timestamp"
+  "studentId": "your-id"
 }
 ```
 
 ---
 
-## 🧠 Key Learnings
+## 💡 Key Learnings
 
-* Serverless architecture using AWS
-* API Gateway ↔ Lambda integration
-* DynamoDB composite key design
-* Handling reserved keywords in DynamoDB
-* Debugging using logs
-
----
-
-## 🔥 Future Improvements
-
-* Add authentication (JWT / Cognito)
-* Add frontend (React)
-* Use `/orders/{orderId}`
-* Implement pagination instead of scan
-
----
-
-## 📌 Conclusion
-
-Built a scalable serverless backend using AWS with proper REST API design and full CRUD functionality.
+* Designed a student management system using serverless architecture
+* Implemented CRUD operations using Lambda and DynamoDB
+* Integrated API Gateway with Lambda using proxy integration
+* Understood real-world API design
 
 ---
